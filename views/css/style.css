@@ -1,0 +1,25 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+}
+
+h1 {
+    text-align: center;
+}
+.formulario {
+    margin: auto;
+    margin-top: 50px;
+    width: 450px;
+    padding: 10px;
+}
+
+#top-nav {
+    width: 100%;
+    background-color: red;
+}
+
+
