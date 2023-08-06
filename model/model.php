@@ -5,7 +5,8 @@ class model
 {
 
     public $cnx;
-    public $nombreClente;
+    public $idpuesto;
+    public $nombreCliente;
     public $documentoCliente;
     public $marcaVehiculo;
     public $placaVehiculo;
@@ -52,15 +53,47 @@ class model
     }
 
 
+    public function cargarID($id) {
+        try {
+            $query = "SELECT * FROM aguacate WHERE idpuesto = ?";
+            $smt = $this->cnx->prepare($query);
+            $smt->execute(array($id));
+            return $smt->fetch(PDO::FETCH_OBJ);
+        }catch (Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+    public function delete($id){
+        try {
+            $query = "DELETE from aguacate where idpuesto = ?";
+            $smt = $this->cnx->prepare($query);
+            $smt->execute(array($id));
+        }catch (Exception $e){
+            die($e->getMessage());
+        }
+    }
+
+
 
 
     public function registrar(model $data)
     {
         try {
             $query = "INSERT INTO aguacate (nombreCliente, documentoCliente, marcaVehiculo, placaVehiculo, color, ubicacion) values (?,?,?,?,?,?)";
-            $this->cnx->prepare($query)->execute(array($data->nombreClente, $data->documentoCliente, $data->marcaVehiculo, $data->placaVehiculo, $data->color, $data->ubicacion));
+            $this->cnx->prepare($query)->execute(array($data->nombreCliente, $data->documentoCliente, $data->marcaVehiculo, $data->placaVehiculo, $data->color, $data->ubicacion));
         } catch (Exception $e) {
             die($e->getMessage());
+        }
+    }
+
+    public function actualizar(model $data){
+        try {
+            $query = "UPDATE aguacate SET nombreCliente=?, documentoCliente=?, marcaVehiculo=?, placaVehiculo=?, color=?, ubicacion=? where idpuesto=?";
+            $smt = $this->cnx->prepare($query);
+            $smt->execute([$data->nombreCliente, $data->documentoCliente, $data->marcaVehiculo, $data->placaVehiculo, $data->color, $data->ubicacion, $data->idpuesto]);
+        }catch (Exception $exception){
+            die($exception->getMessage());
         }
     }
 }

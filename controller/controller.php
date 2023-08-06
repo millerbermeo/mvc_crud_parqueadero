@@ -24,23 +24,41 @@ class parqueadero
         require_once "views/show.php";
     }
 
-    public function nuevo()
+/*    public function nuevo()
     {
+        require_once "views/registrar.php";
+    }*/
+
+    public function eliminar() {
+        $this->MODEL->delete($_REQUEST['id']);
+        header("location: index.php");
+    }
+
+    public function nuevo(){
+        $alm = new model();
+        if (isset($_REQUEST['id'])){
+            $alm = $this->MODEL->cargarID($_REQUEST['id']);
+        }
+
         require_once "views/registrar.php";
     }
 
     public function guardar()
     {
         $alm = new model();
-        $alm->nombreClente=$_POST['nombre'];
-        $alm->documentoCliente=$_POST['documento'];
-        $alm->marcaVehiculo=$_POST['marca'];
-        $alm->placaVehiculo=$_POST['placa'];
-        $alm->color=$_POST['color'];
-        $alm->ubicacion=$_POST['ubicacion'];
+        $alm->idpuesto = $_POST['idpuesto'];
+        $alm->nombreCliente = $_POST['nombre'];
+        $alm->documentoCliente = $_POST['documento'];
+        $alm->marcaVehiculo = $_POST['marca'];
+        $alm->placaVehiculo = $_POST['placa'];
+        $alm->color = $_POST['color'];
+        $alm->ubicacion = $_POST['ubicacion'];
 
-        $this->MODEL->registrar($alm);
+        // $this->MODEL->registrar($alm);
+
+        $alm->idpuesto > 0 ? $this->MODEL->actualizar($alm) : $this->MODEL->registrar($alm);
 
         header("Location: index.php");
     }
+
 }
